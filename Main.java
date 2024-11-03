@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
         List<Instruction> program = new ArrayList<>();
 
-        String[] instructions = readAssemblyFile("BubbleSort.asm").toArray(new String[0]);
+        String[] instructions = readAssemblyFile("Examples/SumOfTheArray.asm").toArray(new String[0]);
 
         Map<String, Integer> labels = extractLabels(instructions);
         parseInstructions(instructions, program, labels);
