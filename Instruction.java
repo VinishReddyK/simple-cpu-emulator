@@ -2,7 +2,7 @@ public class Instruction {
     private String operation;
     private int[] operands;
 
-    public Instruction(String operation, int... operands) {
+    public Instruction(String operation, int[] operands) {
         this.operation = operation;
         this.operands = operands;
     }
