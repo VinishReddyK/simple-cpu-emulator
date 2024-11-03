@@ -1,49 +1,11 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
         List<Instruction> program = new ArrayList<>();
-        String[] instructions = {
-            "STOREI 0, 45",
-            "STOREI 1, 32",
-            "STOREI 2, 89",
-            "STOREI 3, 17",
-            "STOREI 4, 56",
-            "STOREI 5, 23",
-            "STOREI 6, 78",
-            "STOREI 7, 12",
-            "STOREI 8, 92",
-            "STOREI 9, 37",
-            
-            "MOV 5, 0",
-            "ADDI 5, 5, 2",
 
-            "outer_loop:",
-            "MOV 4, 0",
-            "ADDI 4, 4, 9",
-            
-            "inner_loop:",
-            "SUBI 6, 4, 1",
-            "LOAD 1, 4",
-            "LOAD 2, 6",
-            "SUBI 4, 4, 1",
-            "CMP 2, 1",
-            "JLE inner_loop",
-            "ADDI 4, 4, 1",
-            "STORE 6, 1",
-            "STORE 4, 2",
-            "SUBI 4, 4, 1",
-            "CMP 4, 5",
-            "JGE inner_loop",
-            "ADDI 5, 5, 1",
-            "CMPI 5, 10",
-            "JLT outer_loop",
-
-            "PF 0, 10"
-        };
+        String[] instructions = readAssemblyFile("BubbleSort.asm").toArray(new String[0]);
 
         Map<String, Integer> labels = extractLabels(instructions);
         parseInstructions(instructions, program, labels);
@@ -52,6 +14,22 @@ public class Main {
         CPUEmulator cpu = new CPUEmulator(1024, 32, program);
         cpu.run();
     }
+    public static List<String> readAssemblyFile(String filename) {
+        List<String> instructions = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (!line.isEmpty() && !line.startsWith("//")) {
+                    instructions.add(line);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return instructions;
+    }
+
     public static Map<String, Integer> extractLabels(String[] instructionStrings) {
         Map<String, Integer> labels = new HashMap<>();
         int position = 0;
@@ -66,6 +44,7 @@ public class Main {
         }
         return labels;
     }
+    
     public static void parseInstructions(String[] instructionStrings, List<Instruction> program, Map<String, Integer> labels) {
         for (String line : instructionStrings) {
             line = line.trim();

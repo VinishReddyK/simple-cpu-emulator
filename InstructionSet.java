@@ -26,6 +26,12 @@ public class InstructionSet {
             case "SUBI":
                 registers.set(operands[0], registers.get(operands[1]) - operands[2]);
                 break;
+            case "MUL":
+                registers.set(operands[0], registers.get(operands[1]) * registers.get(operands[2]));
+                break;
+            case "MULI":
+                registers.set(operands[0], registers.get(operands[1]) * operands[2]);
+                break;
             case "LOAD":
                 registers.set(operands[0], memory.load(registers.get(operands[1])));
                 break;
