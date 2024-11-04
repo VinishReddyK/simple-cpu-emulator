@@ -3,11 +3,19 @@ import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
-        List<Instruction> program = new ArrayList<>();
+        if (args.length == 0) {
+            System.out.println("Please provide the assembly file name as a command-line argument.");
+            return;
+        }
 
+        String fileName = args[0];
+
+        List<Instruction> program = new ArrayList<>();
+        String[] instructions = readAssemblyFile(fileName).toArray(new String[0]);
+    
         // String[] instructions = readAssemblyFile("Examples/BubbleSort.asm").toArray(new String[0]);
         // String[] instructions = readAssemblyFile("Examples/MaxValue.asm").toArray(new String[0]);
-        String[] instructions = readAssemblyFile("Examples/SumOfTheArray.asm").toArray(new String[0]);
+        // String[] instructions = readAssemblyFile("Examples/SumOfTheArray.asm").toArray(new String[0]);
 
         Map<String, Integer> labels = extractLabels(instructions);
         parseInstructions(instructions, program, labels);
