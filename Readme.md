@@ -49,5 +49,3 @@ This project is licensed under the MIT License.
 
 1. If you encounter errors, ensure that the file path is correct.
 2. For advanced functionality, explore the RBAC settings and shift management features in the code.
-
----
