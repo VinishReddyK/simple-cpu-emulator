@@ -34,50 +34,50 @@ public class CPUEmulator {
     }
 
     private void handleControlFlow(Instruction instruction) {
-        int[] operands = instruction.getOperands();
-
+        String[] operands = instruction.getOperands();
+        int jumpTo = Integer.parseInt(operands[0]);
         switch (instruction.getOperation()) {
             case "JMP":
-                programCounter = operands[0];
+                programCounter = jumpTo;
                 break;
             case "JNE":
                 if (instructionSet.getFlagRegister() != 0) {
-                    programCounter = operands[0];
+                    programCounter = jumpTo;
                 } else {
                     programCounter++;
                 }
                 break;
             case "JEQ":
                 if (instructionSet.getFlagRegister() == 0) {
-                    programCounter = operands[0];
+                    programCounter = jumpTo;
                 } else {
                     programCounter++;
                 }
                 break;
             case "JLT":
                 if (instructionSet.getFlagRegister() < 0) {
-                    programCounter = operands[0];
+                    programCounter = jumpTo;
                 } else {
                     programCounter++;
                 }
                 break;
             case "JLE":
                 if (instructionSet.getFlagRegister() <= 0) {
-                    programCounter = operands[0];
+                    programCounter = jumpTo;
                 } else {
                     programCounter++;
                 }
                 break;
             case "JGT":
                 if (instructionSet.getFlagRegister() > 0) {
-                    programCounter = operands[0];
+                    programCounter = jumpTo;
                 } else {
                     programCounter++;
                 }
                 break;
             case "JGE":
                 if (instructionSet.getFlagRegister() >= 0) {
-                    programCounter = operands[0];
+                    programCounter = jumpTo;
                 } else {
                     programCounter++;
                 }

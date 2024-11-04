@@ -5,11 +5,15 @@ public class Main {
     public static void main(String[] args) {
         List<Instruction> program = new ArrayList<>();
 
+        // String[] instructions = readAssemblyFile("Examples/BubbleSort.asm").toArray(new String[0]);
+        // String[] instructions = readAssemblyFile("Examples/MaxValue.asm").toArray(new String[0]);
         String[] instructions = readAssemblyFile("Examples/SumOfTheArray.asm").toArray(new String[0]);
 
         Map<String, Integer> labels = extractLabels(instructions);
         parseInstructions(instructions, program, labels);
-        
+        // for (Instruction ins : program) {
+        //     Instruction.printInstruction(ins);
+        // }
         // Initialize CPU emulator with 32 registers and 1024 memory size
         CPUEmulator cpu = new CPUEmulator(1024, 32, program);
         cpu.run();
@@ -20,7 +24,7 @@ public class Main {
             String line;
             while ((line = br.readLine()) != null) {
                 line = line.trim();
-                if (!line.isEmpty() && !line.startsWith("//")) {
+                if (!line.isEmpty() && !line.startsWith(";")) {
                     instructions.add(line);
                 }
             }
@@ -56,13 +60,13 @@ public class Main {
             String operation = parts[0];
             String[] operandStrings = parts[1].split(",");
 
-            int[] operands = new int[operandStrings.length];
+            String[] operands = new String[operandStrings.length];
             for (int i = 0; i < operandStrings.length; i++) {
                 String operand = operandStrings[i].trim();
                 if (labels.containsKey(operand)) {
-                    operands[i] = labels.get(operand);
+                    operands[i] = Integer.toString(labels.get(operand));
                 } else {
-                    operands[i] = Integer.parseInt(operand);
+                    operands[i] = operand;
                 }
             }
             program.add(new Instruction(operation, operands));

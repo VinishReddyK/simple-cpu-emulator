@@ -1,8 +1,8 @@
 public class Instruction {
     private String operation;
-    private int[] operands;
+    private String[] operands;
 
-    public Instruction(String operation, int[] operands) {
+    public Instruction(String operation, String[] operands) {
         this.operation = operation;
         this.operands = operands;
     }
@@ -11,7 +11,19 @@ public class Instruction {
         return operation;
     }
 
-    public int[] getOperands() {
+    public String[] getOperands() {
         return operands;
+    }
+    public static void printInstruction(Instruction instruction) {
+        StringBuilder output = new StringBuilder();
+        output.append(instruction.getOperation());
+
+        String[] operands = instruction.getOperands();
+        if (operands != null && operands.length > 0) {
+            output.append(" ");
+            output.append(String.join(", ", operands));
+        }
+
+        System.out.println(output.toString());
     }
 }
