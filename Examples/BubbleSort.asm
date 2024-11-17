@@ -12,27 +12,26 @@ STORE 9, 37
 
 ; Start of bubble sort
 MOV $5, $0
-ADD $5, $5, 2
+ADDI $5, $5, 2
 
 outer_loop:
 MOV $4, $0
-ADD $4, $4, 9
+ADDI $4, $4, 9
 
 inner_loop:
-SUB $6, $4, 1
+SUBI $6, $4, 1
 LOAD $1, $4
 LOAD $2, $6
-SUB $4, $4, 1
+SUBI $4, $4, 1
 CMP $2, $1
 JLE inner_loop
-ADD $4, $4, 1
+ADDI $4, $4, 1
 STORE $6, $1
 STORE $4, $2
-SUB $4, $4, 1
+SUBI $4, $4, 1
 CMP $4, $5
 JGE inner_loop
-ADD $5, $5, 1
-CMP $5, 10
-JLT outer_loop
+ADDI $5, $5, 1
+BLT $5, 10, outer_loop
 
 PMEM 0, 10

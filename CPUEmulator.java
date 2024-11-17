@@ -25,65 +25,46 @@ public class CPUEmulator {
     private void executeInstruction(Instruction instruction) {
         String operation = instruction.getOperation();
 
-        if (operation.equals("JMP") || operation.equals("JNE") || operation.equals("JEQ") || operation.equals("JLT") || operation.equals("JLE") || operation.equals("JGE") || operation.equals("JGT")) {
+        if (operation.matches("J|BNE|BEQ|BLT|BLE|BGE|BGT|JE|JNE|JL|JLE|JG|JGE")) {
             handleControlFlow(instruction);
         } else {
             instructionSet.execute(instruction);
             programCounter++;
         }
     }
-
+    private boolean checkCondition(int flag, String operation) {
+        switch (operation) {
+            case "JE": return flag == 0;
+            case "JNE": return flag != 0;
+            case "JL": return flag < 0;
+            case "JLE": return flag <= 0;
+            case "JG": return flag > 0;
+            case "JGE": return flag >= 0;
+            default: throw new IllegalArgumentException("Unknown operation: " + operation);
+        }
+    }
     private void handleControlFlow(Instruction instruction) {
+        String operation = instruction.getOperation();
         String[] operands = instruction.getOperands();
-        int jumpTo = Integer.parseInt(operands[0]);
-        switch (instruction.getOperation()) {
-            case "JMP":
+        int jumpTo = 0;
+        switch (operation) {
+            case "BEQ": case "BNE": case "BLT": case "BLE": case "BGT": case "BGE":
+                jumpTo = Integer.parseInt(operands[2]);
+                if (instructionSet.execute(instruction)) {
+                    programCounter = jumpTo;
+                } else
+                programCounter++;
+            break;
+            case "J":
+                jumpTo = Integer.parseInt(operands[0]);
                 programCounter = jumpTo;
-                break;
-            case "JNE":
-                if (instructionSet.getFlagRegister() != 0) {
-                    programCounter = jumpTo;
-                } else {
-                    programCounter++;
-                }
-                break;
-            case "JEQ":
-                if (instructionSet.getFlagRegister() == 0) {
-                    programCounter = jumpTo;
-                } else {
-                    programCounter++;
-                }
-                break;
-            case "JLT":
-                if (instructionSet.getFlagRegister() < 0) {
-                    programCounter = jumpTo;
-                } else {
-                    programCounter++;
-                }
-                break;
-            case "JLE":
-                if (instructionSet.getFlagRegister() <= 0) {
-                    programCounter = jumpTo;
-                } else {
-                    programCounter++;
-                }
-                break;
-            case "JGT":
-                if (instructionSet.getFlagRegister() > 0) {
-                    programCounter = jumpTo;
-                } else {
-                    programCounter++;
-                }
-                break;
-            case "JGE":
-                if (instructionSet.getFlagRegister() >= 0) {
-                    programCounter = jumpTo;
-                } else {
-                    programCounter++;
-                }
-                break;
+            break;
             default:
-                throw new IllegalArgumentException("Unknown control flow instruction: " + instruction.getOperation());
+                jumpTo = Integer.parseInt(operands[0]);
+                if (checkCondition(instructionSet.getFlagRegister(), operation)) 
+                    programCounter = jumpTo;
+                else 
+                    programCounter++;
         }
     }
 }
