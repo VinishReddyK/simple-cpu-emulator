@@ -17,14 +17,13 @@ This project is a simple CPU emulator that reads assembly code from a file, simu
 To run the program, use the `java -jar` command and pass the assembly file as an argument.
 
 ```bash
-cd Examples
 java -jar mips.jar <path_to_assembly_file>
 ```
 
 For example:
 
 ```bash
-java -jar mips.jar BubbleSort.asm
+java -jar mips.jar Examples/BubbleSort.asm
 ```
 
 ### Command-Line Argument
@@ -34,10 +33,6 @@ java -jar mips.jar BubbleSort.asm
 ## Usage
 
 The program will read the specified assembly file, parse the instructions, and simulate their execution. Example assembly files (`BubbleSort.asm`, `MaxValue.asm`, `SumOfTheArray.asm`) are located in the `Examples/` directory for testing.
-
-## Structure
-
-- `Examples/`: Contains the exported JAR file (`mips.jar`) and example assembly files.
 
 ## License
 
@@ -49,3 +44,6 @@ This project is licensed under the MIT License.
 
 1. If you encounter errors, ensure that the file path is correct.
 2. For advanced functionality, explore the RBAC settings and shift management features in the code.
+3. To create new jar file from the any code changes you might make use this commands in the repository root.
+   1. `javac -d out src/**/*.java`
+   2. `jar cfm mips.jar MANIFEST.MF -C out .`
